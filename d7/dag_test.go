@@ -35,7 +35,7 @@ func TestPart2_input1(t *testing.T) {
 
 func TestPart2_input2(t *testing.T) {
 	// initialize a new graph
-	d1 := parseDAGFromFile("test1.txt")
+	d1 := parseDAGFromFile("test2.txt")
 
 	b, _ := d1.GetVertex("shiny gold")
 	distanceMap := d1.GetDistanceToLeaves(b)
@@ -44,7 +44,7 @@ func TestPart2_input2(t *testing.T) {
 		totalDistance += distance
 	}
 
-	if totalDistance != 32 {
-		t.Errorf("GetDistanceToLeaves() = %d, want 32", totalDistance)
+	if totalDistance != 126 {
+		t.Errorf("GetDistanceToLeaves() = %d, want 126", totalDistance)
 	}
 }
