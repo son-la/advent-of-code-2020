@@ -22,14 +22,14 @@ func TestPart2_input1(t *testing.T) {
 	d1 := parseDAGFromFile("test1.txt")
 
 	b, _ := d1.GetVertex("shiny gold")
-	distanceMap := d1.GetDistanceToLeaves(b)
+	distanceMap := d1.GetDistanceFromVertex(b)
 	totalDistance := 0
 	for _, distance := range distanceMap {
 		totalDistance += distance
 	}
 
 	if totalDistance != 32 {
-		t.Errorf("GetDistanceToLeaves() = %d, want 32", totalDistance)
+		t.Errorf("GetDistanceFromVertex() = %d, want 32", totalDistance)
 	}
 }
 
@@ -38,13 +38,13 @@ func TestPart2_input2(t *testing.T) {
 	d1 := parseDAGFromFile("test2.txt")
 
 	b, _ := d1.GetVertex("shiny gold")
-	distanceMap := d1.GetDistanceToLeaves(b)
+	distanceMap := d1.GetDistanceFromVertex(b)
 	totalDistance := 0
 	for _, distance := range distanceMap {
-		totalDistance += distance
+		totalDistance += distance	
 	}
 
 	if totalDistance != 126 {
-		t.Errorf("GetDistanceToLeaves() = %d, want 126", totalDistance)
+		t.Errorf("GetDistanceFromVertex() = %d, want 126", totalDistance)
 	}
 }
