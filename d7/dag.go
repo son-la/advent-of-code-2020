@@ -1,3 +1,4 @@
+// The implementaion is inspired by https://github.com/heimdalr/dag/blob/1c2f2869c846892ac48968c0966d3eb94f522b7a/dag_test.go
 package main
 
 import (
@@ -8,15 +9,14 @@ import (
 	"strconv"
 )
 
-// Vertex is the interface to be implemented for the vertices of the DAG.
 type Vertex interface {
 	Id() string
 }
 
 type DAG struct {
-	vertexIds        map[string]Vertex
-	inboundEdge      map[Vertex]map[Vertex]int
-	outboundEdge     map[Vertex]map[Vertex]int
+	vertexIds			map[string]Vertex
+	inboundEdge			map[Vertex]map[Vertex]int
+	outboundEdge		map[Vertex]map[Vertex]int
 }
 
 func NewDAG() *DAG {
@@ -63,8 +63,28 @@ func (d *DAG) GetAncestors(v Vertex) map[Vertex]bool {
 	return ancestors
 }
 
-func (d *DAG) GetDistanceToLeaves(v Vertex) map[Vertex]int {
-	distanceMap := make(map[Vertex]int)
+func (d *DAG) GetDistanceFromVertex(v Vertex) map[Vertex]int {
+	distanceMap :=	make(map[Vertex]int)
+
+	for child, distance := range d.outboundEdge[v] {
+		if distanceToChild, exists := distanceMap[child]; exists {
+			distanceMap[child] = distanceToChild + distance
+		} else {
+			distanceMap[child] = distance
+		}
+
+		distanceMapFromChild := d.GetDistanceFromVertex(child)
+		for grandChild, distanceFromChild := range distanceMapFromChild {
+			if distanceToGrandChild, exists := distanceMap[grandChild]; exists {
+				distanceMap[grandChild] = distanceToGrandChild + distance * distanceFromChild
+			} else {
+				distanceMap[grandChild] = distance * distanceFromChild
+			}
+		}
+	}
+
+	fmt.Println("Distance map from", v, "is", distanceMap)
+
 	return distanceMap
 }
 

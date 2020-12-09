@@ -25,14 +25,13 @@ func main() {
 
 	b, _ := d1.GetVertex("shiny gold")
 	x:= d1.GetAncestors(b)
-	
-	/* 
-	cnt := 0
-	for _, v := range x {
-		if v == true {
-			cnt += 1
-		}
+	fmt.Println("Number of ancestors of shiny gold:", len(x))
+
+	distanceMap := d1.GetDistanceFromVertex(b)
+	totalDistance := 0
+	for _, distance := range distanceMap {
+		totalDistance += distance
 	}
-*/
-	fmt.Println(len(x))
+
+	fmt.Println("Total distance from shiny gold:", totalDistance)
 }
